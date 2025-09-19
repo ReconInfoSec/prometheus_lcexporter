@@ -1,0 +1,90 @@
+# config.yaml - Main configuration file
+
+auth:
+  url: "https://jwt.limacharlie.io"
+  method: "POST"
+  headers:
+    Content-Type: "application/x-www-form-urlencoded"
+    Accept: "application/json"
+    User-Agent: "lcexporter"
+  uid: "" # your UID here
+  secret: "" # your secret here
+
+################################################################################
+##
+## By default this config will pull the currently connected sensors and
+## the quota as gauges, and select usage metrics as counters.
+##
+## The format for adding other endpoints is reasonably straightforward, so
+## feel free to try others.
+##
+
+endpoints:
+  - name: "limacharlie_orgs"
+    url: "https://api.limacharlie.io/v1/orgs/%s"  # %s will be replaced with org_id
+    method: "GET"
+    headers:
+      Accept: "application/json"
+    metrics:
+      - name: "limacharlie_sensor_quota"
+        help: "Sensor quota"
+        type: "gauge"
+        json_path: "sensor_quota"
+        labels:
+          endpoint: "limacharlie_orgs"
+      
+  - name: "limacharlie_online"
+    url: "https://api.limacharlie.io/v1/online/%s"  # %s will be replaced with org_id
+    method: "GET"
+    headers:
+      Accept: "application/json"
+    metrics:
+      - name: "limacharlie_online_sensors"
+        help: "Count of online sensors"
+        type: "gauge"
+        json_path: "count"
+        labels:
+          endpoint: "limacharlie_online_sensors"
+
+  - name: "limacharlie_usage"
+    url: "https://api.limacharlie.io/v1/usage/%s"
+    method: "GET"
+    headers:
+      Accept: "application/json"
+    metrics:
+      - name: "limacharlie_log_bytes"
+        help: "Log bytes ingested"
+        type: "counter"
+        json_path: "usage.%s.log_bytes"
+        labels:
+          endpoint: "limacharlie_usage"
+      - name: "limacharlie_output_bytes_tx"
+        help: "Output bytes transferred"
+        type: "counter"
+        json_path: "usage.%s.output_bytes_tx"
+        labels:
+          endpoint: "limacharlie_usage"
+      - name: "limacharlie_sensor_events"
+        help: "Sensor events"
+        type: "counter"
+        json_path: "usage.%s.sensor_events"
+        labels:
+          endpoint: "limacharlie_usage"
+      - name: "limacharlie_sensor_times"
+        help: "Sensor time"
+        type: "counter"
+        json_path: "usage.%s.sensor_times"
+        labels:
+          endpoint: "limacharlie_usage"
+      - name: "limacharlie_usp_telemetry_bytes"
+        help: "USP telemetry bytes"
+        type: "counter"
+        json_path: "usage.%s.usp_telemetry_bytes"
+        labels:
+          endpoint: "limacharlie_usage"
+          
+server:
+  port: 31337
+  interval: 600  # Collection interval in seconds
+
+

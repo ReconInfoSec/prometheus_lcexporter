@@ -1,0 +1,6 @@
+[
+    {
+        "oid": "<LimaCharlie OID here>",
+        "name": "<Friendly_name (will be used as a label for prometheus)>"
+    }
+]

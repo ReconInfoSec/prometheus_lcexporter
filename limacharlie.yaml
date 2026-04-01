@@ -85,6 +85,6 @@ endpoints:
           
 server:
   port: 31337
-  interval: 600  # Collection interval in seconds
+  interval: 900  # Collection interval in seconds  LimaCharlie caches this for about 10 minutes so this should be > 600
 
 

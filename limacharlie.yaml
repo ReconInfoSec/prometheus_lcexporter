@@ -47,7 +47,7 @@ endpoints:
           endpoint: "limacharlie_online_sensors"
 
   - name: "limacharlie_usage"
-    url: "https://api.limacharlie.io/v1/usage/%s"
+    url: "https://api.limacharlie.io/v1/usage/%s?days=2"
     method: "GET"
     headers:
       Accept: "application/json"
